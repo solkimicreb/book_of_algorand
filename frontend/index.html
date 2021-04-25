@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111111" />
+    <meta name="description" content="The Book of Algorand" />
+
+    <!--<link rel="icon" href="./favicon.ico" />
+    <link rel="apple-touch-icon" href="./logo192.png" />
+    <link rel="manifest" href="./manifest.json" />-->
+    <link rel="stylesheet" type="text/css" href="./index.css" />
+
+    <title>The Book of Algorand</title>
+
+    <script>
+      window.lastRound = "{{ lastRound }}";
+    </script>
+  </head>
+  <body>
+    <main>
+      <h1>The Book of Algorand</h1>
+      <div id="intro">
+        <p>
+          The Book of Algorand is a community-driven story on the Algorand
+          blockchain. Do this to become a writer:
+        </p>
+        <ul>
+          <li>
+            Add Story coin (asset id:
+            <button id="story-coin-id">{{ storyCoinId }}</button>) to your
+            wallet.
+          </li>
+          <li>
+            Get some free Story coins:
+            <input
+              id="story-input"
+              placeholder="Paste your address here ..."
+              maxlength="58"
+            />
+          </li>
+          <li>
+            Send at least 1 Story coin or 1 Algo with a note to
+            <span id="address" class="button"> {{ treasuryAddress }} </span>
+          </li>
+          <li>Your note will be added to the end of the current chapter.</li>
+          <li>
+            Algo donations will buy me coffee and cover Story coin transaction
+            cost.
+          </li>
+        </ul>
+      </div>
+      <h2>Chapter 1</h2>
+      <p id="story">
+        {{#each notes}}
+        <span data-sender="{{ this.sender }}">{{ this.note }}</span>
+        {{/each}}
+      </p>
+    </main>
+    <div id="notification"></div>
+    <script src="./index.js" async defer></script>
+  </body>
+</html>
