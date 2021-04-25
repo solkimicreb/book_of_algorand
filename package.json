@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node backend/index.js",
     "build": "parcel build frontend/index.html",
     "dev:frontend": "parcel watch frontend/index.html",
     "dev:backend": "nodemon backend/index.js",
