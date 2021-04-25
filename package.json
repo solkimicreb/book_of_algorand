@@ -10,8 +10,8 @@
     "dev:backend": "nodemon backend/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "solkimicreb",
+  "license": "MIT",
   "dependencies": {
     "algosdk": "^1.8.1",
     "cors": "^2.8.5",
@@ -22,5 +22,8 @@
   "devDependencies": {
     "nodemon": "^2.0.7",
     "parcel-bundler": "^1.12.5"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
