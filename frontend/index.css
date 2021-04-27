@@ -13,11 +13,11 @@ main {
   width: 20cm;
   margin: 20px auto;
   line-height: 1.5;
+  padding-bottom: 50px;
 }
 
 button,
-.button,
-a {
+.button {
   padding: 0;
   outline: none !important;
   border: none !important;
@@ -79,14 +79,32 @@ li {
 
 #notification {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 50%;
-  transform: translate(-50%, 100%);
-  width: 100%;
+  transform: translate(-50%, -100%);
+  width: max-content;
+  max-width: min(20cm, 90%);
   text-align: center;
   padding: 15px 25px;
-  transition: transform 0.3s, bottom 0.3s;
+  transition: transform 0.3s, top 0.3s;
   font-weight: bold;
+  border-radius: 5px;
+}
+
+#bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translate(0, 100%);
+  text-align: center;
+  padding: 15px 25px;
+  transition: transform 0.3s;
+  font-weight: bold;
+}
+
+#bottom-bar.open {
+  transform: none;
 }
 
 #story span {

@@ -1,5 +1,7 @@
-import { notify, closeNotification } from "./notification";
+import { notify } from "./notification";
 import { post, get } from "./api";
+
+let senderNotes = [];
 
 function copyValue(target) {
   const range = document.createRange();
@@ -35,8 +37,18 @@ function fundStoryCoins(ev) {
   }
 }
 
+function supportStoryCoins() {
+  const firstNote = senderNotes[0];
+  if (firstNote) {
+    const recipient = firstNote.dataset.sender;
+    post("/fund", { recipient }).then(({ message }) =>
+      notify({ message, color: "success" })
+    );
+  }
+}
+
 const story = document.getElementById("story");
-const info = document.getElementById("info");
+const bottomBar = document.getElementById("bottom-bar");
 
 function addNewStoryNotes() {
   get(`/notes?minRound=${window.lastRound}`).then(({ notes, lastRound }) => {
@@ -54,13 +66,11 @@ function addNewStoryNotes() {
 
 setInterval(addNewStoryNotes, Number(process.env.POLL_INTERVAL) * 1000);
 
-let senderNotes = [];
-
-function onStoryClick(ev) {
+function onStoryHighlight(ev) {
   if (ev.target !== story) {
     const { sender } = ev.target.dataset;
     senderNotes = [...story.querySelectorAll(`[data-sender=${sender}]`)];
-    senderNotes.forEach((note) => (note.className = "selected"));
+    senderNotes.forEach((note) => note.classList.add("selected"));
 
     const algoNotes = senderNotes.filter((note) => note.dataset.type === "pay");
     const coinNotes = senderNotes.filter(
@@ -82,13 +92,16 @@ function onStoryClick(ev) {
       .join(" and ");
 
     const message = `This author contributed ${senderNotes.length} times with ${spentText}.`;
-    notify({ message, timeout: false });
+    bottomBar.querySelector("span").innerText = message;
+    bottomBar.classList.add("open");
   }
 }
 
-function onStoryHoverEnd(ev) {
-  senderNotes.forEach((note) => (note.className = ""));
-  closeNotification();
+function onStoryHighlightEnd(ev) {
+  if (ev.path.indexOf(bottomBar) === -1) {
+    senderNotes.forEach((note) => note.classList.remove("selected"));
+    bottomBar.classList.remove("open");
+  }
 }
 
 document
@@ -100,8 +113,9 @@ document
 document
   .getElementById("story-input")
   .addEventListener("input", fundStoryCoins);
-
-document.getElementById("story").addEventListener("click", onStoryClick);
 document
-  .getElementById("story")
-  .addEventListener("mouseleave", onStoryHoverEnd);
+  .getElementById("support-button")
+  .addEventListener("click", supportStoryCoins);
+
+document.getElementById("story").addEventListener("click", onStoryHighlight);
+window.addEventListener("click", onStoryHighlightEnd, true);

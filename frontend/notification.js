@@ -6,6 +6,7 @@ export function notify({ message, color = "secondary", timeout = 4000 }) {
   notification.className = color;
 
   Object.assign(notification.style, {
+    top: "15px",
     transform: "translate(-50%, 0)",
   });
 
@@ -19,6 +20,7 @@ export function closeNotification() {
   clearTimeout(id);
 
   Object.assign(notification.style, {
-    transform: "translate(-50%, 100%)",
+    top: 0,
+    transform: "translate(-50%, -100%)",
   });
 }
