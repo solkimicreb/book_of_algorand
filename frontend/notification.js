@@ -1,22 +1,26 @@
 const notification = document.getElementById("notification");
-let timeout;
+let id;
 
-const colors = {
-  success: "rgb(0, 120, 50)",
-  danger: " #cc0000",
-};
-
-export function notify({ message, color = "success" }) {
+export function notify({ message, color = "secondary", timeout = 4000 }) {
   notification.innerText = message;
-  notification.style.backgroundColor = colors[color];
-  notification.style.opacity = 1;
-  notification.style.transform = "translate(-50%, 0)";
+  notification.className = color;
+
+  Object.assign(notification.style, {
+    bottom: "15px",
+    transform: "translate(-50%, 0)",
+  });
 
   clearTimeout(timeout);
-  timeout = setTimeout(closeNotification, 4000);
+  if (timeout) {
+    id = setTimeout(closeNotification, timeout);
+  }
 }
 
-function closeNotification() {
-  notification.style.opacity = 0;
-  notification.style.transform = "translate(-50%, 100%)";
+export function closeNotification() {
+  clearTimeout(id);
+
+  Object.assign(notification.style, {
+    bottom: 0,
+    transform: "translate(-50%, 100%)",
+  });
 }

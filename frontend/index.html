@@ -17,43 +17,47 @@
       window.lastRound = "{{ lastRound }}";
     </script>
   </head>
-  <body>
+  <body class="primary">
     <main>
       <h1>The Book of Algorand</h1>
-      <div id="intro">
-        <p>
-          The Book of Algorand is a community-driven story on the Algorand
-          blockchain. Do this to become a writer:
-        </p>
-        <ul>
+      <h2>A community-driven story on the Algorand blockchain</h2>
+      <div id="intro" class="secondary">
+        <p>Follow these steps to become an author:</p>
+        <ol>
           <li>
-            Add Story coin (asset id:
-            <button id="story-coin-id">{{ storyCoinId }}</button>) to your
-            wallet.
+            Add Story coin (id
+            <span class="button" id="story-coin-id">{{ storyCoinId }}</span>) to
+            your wallet.
           </li>
           <li>
-            Get some free Story coins:
             <input
               id="story-input"
-              placeholder="Paste your address here ..."
+              placeholder="Paste your address here..."
               maxlength="58"
             />
+            to get free Story coins.
           </li>
           <li>
             Send at least 1 Story coin or 1 Algo with a note to
-            <span id="address" class="button"> {{ treasuryAddress }} </span>
+            <span class="button" id="address">{{ treasuryAddress }}</span>.
           </li>
           <li>Your note will be added to the end of the current chapter.</li>
-          <li>
-            Algo donations will buy me coffee and cover Story coin transaction
-            cost.
-          </li>
-        </ul>
+          <li>Hover over the story to see who wrote what.</li>
+        </ol>
+        <p>
+          Algo donations are highlighted in <span class="gold-text">gold</span>.
+          They cover operational cost and buy me coffee.
+        </p>
       </div>
       <h2>Chapter 1</h2>
       <p id="story">
         {{#each notes}}
-        <span data-sender="{{ this.sender }}">{{ this.note }}</span>
+        <span
+          data-sender="{{ this.sender }}"
+          data-type="{{ this.type }}"
+          data-amount="{{ this.amount }}"
+          >{{ this.note }}</span
+        >
         {{/each}}
       </p>
     </main>
