@@ -48,16 +48,6 @@ h2 {
   font-size: 22px;
 }
 
-@media (max-width: 400px) {
-  h1 {
-    font-size: 28px;
-  }
-
-  h2 {
-    font-size: 18px;
-  }
-}
-
 ol {
   padding-inline-start: 12px;
   margin: 0;
@@ -92,11 +82,11 @@ li {
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 100%);
-  max-width: min(20cm, 90%);
-  width: max-content;
-  padding: 10px 20px;
-  border-radius: 8px;
+  width: 100%;
+  text-align: center;
+  padding: 15px 25px;
   transition: transform 0.3s, bottom 0.3s;
+  font-weight: bold;
 }
 
 #story span {
@@ -129,13 +119,12 @@ li {
   color: white;
 }
 
-.gold-text,
-#story span[data-type="pay"]:not(.gold) {
-  color: #ffd700;
+#story span[data-type="pay"] {
+  font-weight: bold;
 }
 
-.gold {
-  background-color: #ffd700;
+.selected {
+  background-color: rgb(255, 255, 53);
   color: #212121;
 }
 
@@ -148,5 +137,19 @@ li {
   .secondary {
     background-color: #333;
     color: white;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  #notification {
+    padding: 10px 20px;
   }
 }

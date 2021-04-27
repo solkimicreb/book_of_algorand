@@ -56,11 +56,11 @@ setInterval(addNewStoryNotes, Number(process.env.POLL_INTERVAL) * 1000);
 
 let senderNotes = [];
 
-function onStoryHoverStart(ev) {
+function onStoryClick(ev) {
   if (ev.target !== story) {
     const { sender } = ev.target.dataset;
     senderNotes = [...story.querySelectorAll(`[data-sender=${sender}]`)];
-    senderNotes.forEach((note) => (note.className = "gold"));
+    senderNotes.forEach((note) => (note.className = "selected"));
 
     const algoNotes = senderNotes.filter((note) => note.dataset.type === "pay");
     const coinNotes = senderNotes.filter(
@@ -101,9 +101,7 @@ document
   .getElementById("story-input")
   .addEventListener("input", fundStoryCoins);
 
-document
-  .getElementById("story")
-  .addEventListener("mouseover", onStoryHoverStart);
+document.getElementById("story").addEventListener("click", onStoryClick);
 document
   .getElementById("story")
   .addEventListener("mouseleave", onStoryHoverEnd);
