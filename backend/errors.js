@@ -1,6 +1,15 @@
 function handleError(err, req, res, next) {
   console.error(err, err.stack);
-  res.status(500).send({ message: "Something went wrong!" });
+
+  const status = err.status || 500;
+  let body;
+  try {
+    body = JSON.parse(err.response.text);
+  } catch (err) {
+    body = { message: "Something went wrong!" };
+  }
+
+  res.status(status).send(body);
 }
 
 function wrap(middleware) {

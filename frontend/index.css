@@ -184,11 +184,11 @@ a {
 #basics {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.8s;
+  transition: max-height 0.4s;
 }
 
 #basics.open {
-  max-height: 400px;
+  max-height: 160px;
 }
 
 #loader {

@@ -16,7 +16,7 @@ function copyValue(target) {
 function copyTreasuryAddress(ev) {
   copyValue(ev.target);
   notify({
-    message: "The Story coin address is copied to your clipboard!",
+    message: "The Story address is copied to your clipboard!",
     color: "success",
   });
 }
@@ -24,7 +24,7 @@ function copyTreasuryAddress(ev) {
 function copyStoryCoinId(ev) {
   copyValue(ev.target);
   notify({
-    message: "The Story coin asset id is copied to your clipboard!",
+    message: "The Story asset id is copied to your clipboard!",
     color: "success",
   });
 }
@@ -116,8 +116,8 @@ function onStoryHighlightEnd(ev) {
 
 const basics = document.getElementById("basics");
 
-function expandBasics() {
-  basics.classList.add("open");
+function toggleBasics() {
+  basics.classList.toggle("open");
 }
 
 document
@@ -133,8 +133,8 @@ document
   .getElementById("support-button")
   .addEventListener("click", supportStoryCoins);
 document
-  .getElementById("expand-basics")
-  .addEventListener("click", expandBasics);
+  .getElementById("toggle-basics")
+  .addEventListener("click", toggleBasics);
 
 document.getElementById("story").addEventListener("click", onStoryHighlight);
 window.addEventListener("click", onStoryHighlightEnd, true);

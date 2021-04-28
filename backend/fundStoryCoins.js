@@ -38,6 +38,7 @@ async function fundStoryCoins({ recipient, self }) {
     assetId,
     params
   );
+
   const signedTxn = algosdk.signTransaction(txn, treasury.sk);
   await client.sendRawTransaction(signedTxn.blob).do();
 
