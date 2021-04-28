@@ -3,16 +3,25 @@ const { indexer, treasury } = require("./client");
 const transactionLimit = 10000;
 
 let lastRefresh = Date.now();
-let cache;
+let cache = {
+  notes: [],
+  lastRound: 0,
+};
 
 async function getStoryNotes(params) {
-  const timeSinceLastRefresh = Date.now() - lastRefresh;
+  try {
+    const timeSinceLastRefresh = Date.now() - lastRefresh;
 
-  if (!cache || Number(process.env.POLL_INTERVAL) * 10 < timeSinceLastRefresh) {
-    cache = await _getStoryNotes(params);
-    lastRefresh = Date.now();
+    if (
+      !cache ||
+      Number(process.env.POLL_INTERVAL) * 10 < timeSinceLastRefresh
+    ) {
+      cache = await _getStoryNotes(params);
+      lastRefresh = Date.now();
+    }
+  } finally {
+    return cache;
   }
-  return cache;
 }
 
 async function _getStoryNotes({ minRound } = {}) {

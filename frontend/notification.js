@@ -13,5 +13,5 @@ export function notify({ message, color = "success", timeout = 4000 }) {
 
 export function closeNotification() {
   clearTimeout(id);
-  notification.className = "";
+  notification.classList.remove("open");
 }
