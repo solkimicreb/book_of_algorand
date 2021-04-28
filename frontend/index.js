@@ -2,6 +2,7 @@ import { notify } from "./notification";
 import { post, get } from "./api";
 
 let senderNotes = [];
+const supportedAuthors = [];
 
 function copyValue(target) {
   const range = document.createRange();
@@ -41,9 +42,16 @@ function supportStoryCoins() {
   const firstNote = senderNotes[0];
   if (firstNote) {
     const recipient = firstNote.dataset.sender;
-    post("/fund", { recipient }).then(({ message }) =>
-      notify({ message, color: "success" })
-    );
+    if (supportedAuthors.indexOf(recipient) !== -1) {
+      return notify({
+        message: "That's enough support for a single author!",
+        color: "danger",
+      });
+    }
+    post("/fund", { recipient }).then(({ message }) => {
+      supportedAuthors.push(recipient);
+      notify({ message, color: "success" });
+    });
   }
 }
 
@@ -94,6 +102,7 @@ function onStoryHighlight(ev) {
     const message = `This author contributed ${senderNotes.length} times with ${spentText}.`;
     bottomBar.querySelector("span").innerText = message;
     bottomBar.classList.add("open");
+    story.classList.add("has-selection");
   }
 }
 
@@ -101,6 +110,7 @@ function onStoryHighlightEnd(ev) {
   if (ev.path.indexOf(bottomBar) === -1) {
     senderNotes.forEach((note) => note.classList.remove("selected"));
     bottomBar.classList.remove("open");
+    story.classList.remove("has-selection");
   }
 }
 

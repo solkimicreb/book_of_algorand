@@ -1,6 +1,6 @@
 function handleError(err, req, res, next) {
   console.error(err, err.stack);
-  res.status(500).send({ message: "Oops! Something is not right!" });
+  res.status(500).send({ message: "Something went wrong!" });
 }
 
 function wrap(middleware) {

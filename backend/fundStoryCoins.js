@@ -1,13 +1,22 @@
+const algosdk = require("algosdk");
 const { client, treasury } = require("./client");
 
-const fundNotes = ["I want to be a writer!", "Use me for your story!"];
+const fundNotes = [
+  "Read something good recently?",
+  "I know you have some good ideas!",
+  "You can be a writer!",
+  "Have any good ideas?",
+  "Spend this at https://book-of-algorand.herokuapp.com!",
+];
 
-const getRandomNote = () =>
+const getNote = (self) =>
   new TextEncoder().encode(
-    fundNotes[Math.round(Math.floor() * fundNotes.length)]
+    self
+      ? fundNotes[Math.round(Math.floor() * fundNotes.length)]
+      : "Someone liked your writing!"
   );
 
-async function fundStoryCoins({ recipient }) {
+async function fundStoryCoins({ recipient, self }) {
   const params = await client.getTransactionParams().do();
   params.flatFee = true;
   params.fee = 1000;
@@ -15,8 +24,8 @@ async function fundStoryCoins({ recipient }) {
   const sender = treasury.addr;
   const closeRemainderTo = undefined;
   const revocationTarget = undefined;
-  const amount = Number(process.env.STORY_COIN_BATCH_SIZE);
-  const note = getRandomNote();
+  const amount = 1;
+  const encodedNote = getNote();
   const assetId = Number(process.env.STORY_COIN_ID);
 
   const txn = algosdk.makeAssetTransferTxnWithSuggestedParams(
@@ -25,28 +34,39 @@ async function fundStoryCoins({ recipient }) {
     closeRemainderTo,
     revocationTarget,
     amount,
-    note,
+    encodedNote,
     assetId,
     params
   );
   const signedTxn = algosdk.signTransaction(txn, treasury.sk);
   await client.sendRawTransaction(signedTxn.blob).do();
+
+  return self
+    ? "You recieved a story coins!"
+    : "We sent the author a Story coin on your behalf!";
 }
 
-async function isStoryCoinBlocked({ recipient }) {
+async function isStoryCoinBlocked({ recipient, self }) {
   const { assets } = await client.accountInformation(recipient).do();
   const storyCoin = assets.find(
     (asset) => asset["asset-id"] === Number(process.env.STORY_COIN_ID)
   );
 
   if (!storyCoin) {
-    return `You have to add the "Story" asset (with id: ${process.env.STORY_COIN_ID}) to recieve id.`;
+    return self
+      ? `Please add the Story asset (id: ${process.env.STORY_COIN_ID}) to your wallet.`
+      : "This author opted out of Story coins.";
   }
   if (storyCoin["is-frozen"]) {
-    return "Your Story coin account is frozen.";
+    return self
+      ? "Your Story coin account is frozen."
+      : "The author's Story coin account is frozen.";
   }
-  if (10 < storyCoin.amount) {
-    return "You can't request Story coins if you already have more than 10.";
+  if (self && storyCoin.amount) {
+    return "You already have some Story coins. Spend them first!";
+  }
+  if (99 <= storyCoin.amount) {
+    return "This author is already loved by the community. Support the underdogs too!";
   }
 }
 

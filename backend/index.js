@@ -6,8 +6,8 @@ const { fundStoryCoins, isStoryCoinBlocked } = require("./fundStoryCoins");
 const { wrap, handleError } = require("./errors");
 const { frontendTemplate, frontendPath } = require("./template");
 
-const app = express();
 const port = process.env.PORT;
+const app = express();
 
 app.use(express.json());
 
@@ -40,14 +40,15 @@ app.get(
 app.post(
   "/fund",
   wrap(async (req, res) => {
-    const { recipient } = req.body;
-    const blockReason = await isStoryCoinBlocked({ recipient });
+    const { recipient, self } = req.body;
+    const blockReason = await isStoryCoinBlocked({ recipient, self });
     if (blockReason) {
       return res.status(400).send({ message: blockReason });
     }
 
-    await fundStoryCoins({ recipient });
-    res.send({ message: "You recieved 5 story coins" });
+    const message = await fundStoryCoins({ recipient, self });
+
+    res.send({ message });
   })
 );
 

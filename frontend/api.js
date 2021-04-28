@@ -4,10 +4,12 @@ if (!window.fetch) {
   import("whatwg-fetch");
 }
 
+const loader = document.getElementById("loader");
+
 function fetchResource(path = "", method, body) {
   if (!window.fetch) {
     console.error("Fetch is not yet loaded");
-    returtn;
+    return;
   }
 
   return window
@@ -26,11 +28,14 @@ function fetchResource(path = "", method, body) {
           color: isError ? "danger" : "success",
         });
       }
-      if (isError) {
-        throw new Error(body);
-      }
       return body;
-    });
+    })
+    .catch(() =>
+      notify({
+        message: "Something went wrong!",
+        color: "danger",
+      })
+    );
 }
 
 export function get(path) {
@@ -38,5 +43,16 @@ export function get(path) {
 }
 
 export function post(path, body) {
-  return fetchResource(path, "POST", body);
+  loader.classList.add("loading");
+  return fetchResource(path, "POST", body).then(postSuccess, postError);
+}
+
+function postSuccess(resp) {
+  loader.style.display = "none";
+  return resp;
+}
+
+function postError(err) {
+  loader.classList.remove("loading");
+  throw err;
 }

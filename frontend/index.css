@@ -24,7 +24,6 @@ button,
   font: inherit;
   cursor: pointer;
   color: inherit;
-  text-decoration: underline;
   background-color: transparent;
 }
 
@@ -86,9 +85,10 @@ li {
   max-width: min(20cm, 90%);
   text-align: center;
   padding: 15px 25px;
-  transition: transform 0.3s, top 0.3s;
+  transition: transform 0.2s, top 0.2s;
   font-weight: bold;
   border-radius: 5px;
+  z-index: 10;
 }
 
 #bottom-bar {
@@ -99,7 +99,7 @@ li {
   transform: translate(0, 100%);
   text-align: center;
   padding: 15px 25px;
-  transition: transform 0.3s;
+  transition: transform 0.2s;
   font-weight: bold;
 }
 
@@ -127,23 +127,19 @@ li {
   color: #212121;
 }
 
-.success {
-  background-color: #007832;
-  color: white;
-}
-
+#story:not(.has-selection) span[data-type="pay"],
+.magenta,
 .danger {
-  background-color: #cc0000;
-  color: white;
+  background-color: rgb(255, 218, 255);
+  color: #111;
 }
 
-#story span[data-type="pay"] {
-  font-weight: bold;
-}
-
-.selected {
-  background-color: rgb(255, 255, 53);
-  color: #212121;
+.selected,
+.success,
+button,
+.button {
+  background-color: rgb(241, 255, 176);
+  color: #111;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -169,5 +165,34 @@ li {
 
   #notification {
     padding: 10px 20px;
+  }
+}
+
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 70%;
+  height: 2px;
+  animation: loader 1s infinite;
+  background: linear-gradient(
+    to right,
+    rgba(241, 255, 176, 0),
+    rgba(241, 255, 176, 1),
+    rgba(241, 255, 176, 0)
+  );
+  display: none;
+}
+
+#loader.loading {
+  display: block;
+}
+
+@keyframes loader {
+  0% {
+    left: -70%;
+  }
+  100% {
+    left: 100%;
   }
 }

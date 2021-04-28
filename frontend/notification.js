@@ -10,7 +10,7 @@ export function notify({ message, color = "secondary", timeout = 4000 }) {
     transform: "translate(-50%, 0)",
   });
 
-  clearTimeout(timeout);
+  clearTimeout(id);
   if (timeout) {
     id = setTimeout(closeNotification, timeout);
   }

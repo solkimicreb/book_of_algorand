@@ -51,7 +51,7 @@ async function _getStoryNotes({ minRound } = {}) {
     .sort((t1, t2) => (t1["round-time"] < t2["round-time"] ? -1 : 1))
     .filter(({ note }) => note)
     .map((transaction) => ({
-      note: Buffer.from(transaction.note, "base64").toString("utf-8"),
+      note: Buffer.from(transaction.note, "base64").toString("utf-8").trim(),
       sender: transaction.sender,
       type: transaction["tx-type"],
       amount:
