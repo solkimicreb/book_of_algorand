@@ -32,7 +32,7 @@ function copyStoryCoinId(ev) {
 function fundStoryCoins(ev) {
   const { value } = ev.target;
   if (value.length === 58) {
-    post("/fund", { recipient: value }).then(({ message }) =>
+    post("/fund", { recipient: value, self: true }).then(({ message }) =>
       notify({ message, color: "success" })
     );
   }
