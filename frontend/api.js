@@ -28,14 +28,11 @@ function fetchResource(path = "", method, body) {
           color: isError ? "danger" : "success",
         });
       }
+      if (isError) {
+        throw new Error("API Error");
+      }
       return body;
-    })
-    .catch(() =>
-      notify({
-        message: "Something went wrong!",
-        color: "danger",
-      })
-    );
+    });
 }
 
 export function get(path) {

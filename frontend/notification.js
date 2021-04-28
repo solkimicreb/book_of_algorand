@@ -1,14 +1,9 @@
 const notification = document.getElementById("notification");
 let id;
 
-export function notify({ message, color = "secondary", timeout = 4000 }) {
+export function notify({ message, color = "success", timeout = 4000 }) {
   notification.innerText = message;
-  notification.className = color;
-
-  Object.assign(notification.style, {
-    top: "15px",
-    transform: "translate(-50%, 0)",
-  });
+  notification.className = `open ${color}`;
 
   clearTimeout(id);
   if (timeout) {
@@ -18,9 +13,5 @@ export function notify({ message, color = "secondary", timeout = 4000 }) {
 
 export function closeNotification() {
   clearTimeout(id);
-
-  Object.assign(notification.style, {
-    top: 0,
-    transform: "translate(-50%, -100%)",
-  });
+  notification.className = "";
 }
