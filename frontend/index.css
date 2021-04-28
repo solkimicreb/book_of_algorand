@@ -6,31 +6,29 @@ body {
   margin: 0;
   font-family: "Euclid Circular A", Arial, Sans-serif;
   font-size: 16px;
+  line-height: 1.5;
 }
 
 main {
   max-width: 90%;
   width: 20cm;
   margin: 20px auto;
-  line-height: 1.5;
   padding-bottom: 50px;
 }
 
 button,
-.button {
+.button,
+a {
   padding: 0;
   outline: none !important;
   border: none !important;
   font: inherit;
   cursor: pointer;
   color: inherit;
-  background-color: transparent;
 }
 
-button.large,
-.button.large {
-  width: 100%;
-  padding: 4px 12px;
+button {
+  line-height: 1;
 }
 
 h1,
@@ -45,6 +43,11 @@ h1 {
 
 h2 {
   font-size: 22px;
+}
+
+ul {
+  padding-inline-start: 10px;
+  margin: 0;
 }
 
 ol {
@@ -85,7 +88,7 @@ li {
   max-width: min(20cm, 90%);
   text-align: center;
   padding: 15px 25px;
-  transition: transform 0.2s, top 0.2s;
+  transition: transform 0.3s, top 0.3s;
   font-weight: bold;
   border-radius: 5px;
   z-index: 10;
@@ -142,7 +145,8 @@ li {
 .selected,
 .success,
 button,
-.button {
+.button,
+a {
   background-color: rgb(241, 255, 176);
   color: #111;
 }
@@ -171,6 +175,16 @@ button,
   #notification {
     padding: 10px 20px;
   }
+}
+
+#basics {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.8s;
+}
+
+#basics.open {
+  max-height: 400px;
 }
 
 #loader {

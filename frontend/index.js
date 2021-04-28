@@ -114,6 +114,12 @@ function onStoryHighlightEnd(ev) {
   }
 }
 
+const basics = document.getElementById("basics");
+
+function expandBasics() {
+  basics.classList.add("open");
+}
+
 document
   .getElementById("address")
   .addEventListener("click", copyTreasuryAddress);
@@ -126,6 +132,9 @@ document
 document
   .getElementById("support-button")
   .addEventListener("click", supportStoryCoins);
+document
+  .getElementById("expand-basics")
+  .addEventListener("click", expandBasics);
 
 document.getElementById("story").addEventListener("click", onStoryHighlight);
 window.addEventListener("click", onStoryHighlightEnd, true);
