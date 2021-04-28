@@ -24,7 +24,7 @@ async function fundStoryCoins({ recipient, self }) {
   const sender = treasury.addr;
   const closeRemainderTo = undefined;
   const revocationTarget = undefined;
-  const amount = 1;
+  const amount = self ? 2 : 1;
   const encodedNote = getNote();
   const assetId = Number(process.env.STORY_COIN_ID);
 
@@ -43,30 +43,30 @@ async function fundStoryCoins({ recipient, self }) {
   await client.sendRawTransaction(signedTxn.blob).do();
 
   return self
-    ? "You recieved a story coins!"
+    ? "You recieved some Story coins!"
     : "We sent the author a Story coin on your behalf!";
 }
 
 async function isStoryCoinBlocked({ recipient, self }) {
   const { assets } = await client.accountInformation(recipient).do();
-  const storyCoin = assets.find(
+  const storyCoins = assets.find(
     (asset) => asset["asset-id"] === Number(process.env.STORY_COIN_ID)
   );
 
-  if (!storyCoin) {
+  if (!storyCoins) {
     return self
       ? `Please add the Story asset (id: ${process.env.STORY_COIN_ID}) to your wallet.`
       : "This author opted out of Story coins.";
   }
-  if (storyCoin["is-frozen"]) {
+  if (storyCoins["is-frozen"]) {
     return self
       ? "Your Story coin account is frozen."
       : "The author's Story coin account is frozen.";
   }
-  if (self && storyCoin.amount) {
+  if (self && 2 <= storyCoins.amount) {
     return "You already have some Story coins. Spend them first!";
   }
-  if (99 <= storyCoin.amount) {
+  if (99 <= storyCoins.amount) {
     return "This author is already loved by the community. Support the underdogs too!";
   }
 }
