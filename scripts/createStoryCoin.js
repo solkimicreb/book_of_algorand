@@ -1,6 +1,6 @@
-require("dotenv").config();
+require("dotenv").config({ path: "../.env" });
 const algosdk = require("algosdk");
-const { client } = require("./client");
+const { client } = require("../backend/client");
 
 const treasury = algosdk.mnemonicToSecretKey(process.env.TREASURY_MNEMONIC);
 
@@ -16,7 +16,7 @@ async function createStoryCoin() {
   const totalIssuance = 1000000;
   const unitName = "Story";
   const assetName = "Story";
-  const assetURL = undefined;
+  const assetURL = "https://bit.ly/3t1Eht8";
   const assetMetadataHash = undefined;
 
   const manager = treasury.addr;
