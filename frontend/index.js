@@ -93,17 +93,28 @@ function onStoryHighlight(ev) {
       0
     );
     const spentText = [
-      coinsSpent && `${coinsSpent} Story coins`,
-      algosSpent && `${algosSpent} Algos`,
+      pluralize(coinsSpent, "Story coin"),
+      pluralize(algosSpent, "Algo"),
     ]
       .filter(Boolean)
       .join(" and ");
 
-    const message = `This author contributed ${senderNotes.length} times with ${spentText}.`;
+    const message = `This author contributed ${pluralize(
+      senderNotes.length,
+      "time"
+    )} with ${spentText}.`;
     bottomBar.querySelector("span").innerText = message;
     bottomBar.classList.add("open");
     story.classList.add("has-selection");
   }
+}
+
+function pluralize(amount, unit) {
+  if (!amount) {
+    return "";
+  }
+  const text = `${amount} ${unit}`;
+  return amount === 1 ? text : `${text}s`;
 }
 
 function onStoryHighlightEnd(ev) {
