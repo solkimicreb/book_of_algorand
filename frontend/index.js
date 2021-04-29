@@ -143,7 +143,7 @@ function toggleSection(ev) {
   style.transitionDuration = `${transitionDuration}ms`;
   if (style.height) {
     style.height = `${scrollHeight}px`;
-    body.__timeout = setTimeout(() => (style.height = null));
+    body.__timeout = setTimeout(() => (style.height = null), 20);
   } else {
     style.height = `${scrollHeight}px`;
     body.__timeout = setTimeout(

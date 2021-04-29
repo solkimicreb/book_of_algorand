@@ -215,6 +215,8 @@ a {
   padding: 15px 20px;
   margin: 0;
   font-weight: bold;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
   user-select: none;
 }
 
