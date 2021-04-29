@@ -41,13 +41,19 @@ async function _getStoryNotes({ minRound } = {}) {
     nextToken = resp["next-token"];
     lastRound = resp["current-round"];
 
-    const validTransactions = resp.transactions.filter(
-      (transaction) =>
-        transaction.sender !== treasury.addr &&
-        (transaction["tx-type"] === "axfer" ||
-          (transaction["tx-type"] === "pay" &&
-            1000000 <= transaction["payment-transaction"]?.amount))
-    );
+    const validTransactions = resp.transactions.filter((transaction) => {
+      const type = transaction["tx-type"];
+      if (type === "axfer") {
+        return (
+          transaction["asset-transfer-transaction"].receiver === treasury.addr
+        );
+      }
+      if (type === "pay") {
+        const { amount, receiver } = transaction["payment-transaction"];
+        return receiver === treasury.addr && 1000000 <= amount;
+      }
+      return false;
+    });
 
     transactions.push(...validTransactions);
 

@@ -82,38 +82,39 @@ function addNewStoryNotes() {
 
 setInterval(addNewStoryNotes, Number(process.env.POLL_INTERVAL) * 1000);
 
+function highlightStoryParts(author) {
+  senderNotes = [...story.querySelectorAll(`[data-sender=${author}]`)];
+  senderNotes.forEach((note) => note.classList.add("selected"));
+
+  const algoNotes = senderNotes.filter((note) => note.dataset.type === "pay");
+  const coinNotes = senderNotes.filter((note) => note.dataset.type === "axfer");
+  const algosSpent = algoNotes.reduce(
+    (algos, note) => algos + Number(note.dataset.amount),
+    0
+  );
+  const coinsSpent = coinNotes.reduce(
+    (coins, note) => coins + Number(note.dataset.amount),
+    0
+  );
+  const spentText = [
+    pluralize(coinsSpent, "Story coin"),
+    pluralize(algosSpent, "Algo"),
+  ]
+    .filter(Boolean)
+    .join(" and ");
+
+  const message = `This author contributed ${pluralize(
+    senderNotes.length,
+    "time"
+  )} with ${spentText}.`;
+  bottomBar.querySelector("span").innerText = message;
+  bottomBar.classList.add("open");
+  story.classList.add("has-selection");
+}
+
 function onStoryHighlight(ev) {
   if (ev.target !== story) {
-    const { sender } = ev.target.dataset;
-    senderNotes = [...story.querySelectorAll(`[data-sender=${sender}]`)];
-    senderNotes.forEach((note) => note.classList.add("selected"));
-
-    const algoNotes = senderNotes.filter((note) => note.dataset.type === "pay");
-    const coinNotes = senderNotes.filter(
-      (note) => note.dataset.type === "axfer"
-    );
-    const algosSpent = algoNotes.reduce(
-      (algos, note) => algos + Number(note.dataset.amount),
-      0
-    );
-    const coinsSpent = coinNotes.reduce(
-      (coins, note) => coins + Number(note.dataset.amount),
-      0
-    );
-    const spentText = [
-      pluralize(coinsSpent, "Story coin"),
-      pluralize(algosSpent, "Algo"),
-    ]
-      .filter(Boolean)
-      .join(" and ");
-
-    const message = `This author contributed ${pluralize(
-      senderNotes.length,
-      "time"
-    )} with ${spentText}.`;
-    bottomBar.querySelector("span").innerText = message;
-    bottomBar.classList.add("open");
-    story.classList.add("has-selection");
+    highlightStoryParts(ev.target.dataset.sender);
   }
 }
 
@@ -137,17 +138,23 @@ function toggleSection(ev) {
   const header = ev.currentTarget;
   const body = header.nextElementSibling;
 
-  header.classList.toggle("open");
-
   const { scrollHeight, style, __timeout } = body;
   clearTimeout(__timeout);
   const transitionDuration = Math.min(500, scrollHeight * 2);
   style.transitionDuration = `${transitionDuration}ms`;
 
   if (style.height) {
+    header.classList.remove("open");
     style.height = `${scrollHeight}px`;
     body.__timeout = setTimeout(() => (style.height = null), 20);
   } else {
+    if (header.id === "support-authors") {
+      setTimeout(() => {
+        highlightStoryParts(document.getElementById("address").innerText);
+        header.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, transitionDuration);
+    }
+    header.classList.add("open");
     style.height = `${scrollHeight}px`;
     body.__timeout = setTimeout(
       () => (style.height = "auto"),
