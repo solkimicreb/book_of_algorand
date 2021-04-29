@@ -242,10 +242,10 @@ a {
   margin: 0;
 }
 
-.section-body *:first-child {
+.section-body > :first-child {
   margin-top: 0;
 }
-.section-body *:last-child {
+.section-body > :last-child {
   margin-bottom: 15px;
 }
 
