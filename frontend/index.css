@@ -19,13 +19,13 @@ main {
 button,
 .button,
 a {
-  padding: 0 2px;
-  border-radius: 2px;
-  outline: none !important;
   border: none !important;
+  outline: none !important;
   font: inherit;
   cursor: pointer;
-  color: inherit;
+  white-space: nowrap;
+  padding: 1px 4px;
+  border-radius: 3px;
 }
 
 button {
@@ -57,6 +57,7 @@ ul {
 }
 
 #address {
+  white-space: normal;
   word-break: break-all;
   overflow-wrap: anywhere;
 }
@@ -133,6 +134,7 @@ li {
 #story:not(.has-selection) span[data-type="pay"],
 .magenta,
 .danger {
+  border-radius: 2px;
   background-color: rgb(255, 218, 255);
   color: #111;
 }

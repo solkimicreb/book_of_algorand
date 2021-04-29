@@ -148,12 +148,6 @@ function toggleSection(ev) {
     style.height = `${scrollHeight}px`;
     body.__timeout = setTimeout(() => (style.height = null), 20);
   } else {
-    if (header.id === "support-authors") {
-      setTimeout(() => {
-        highlightStoryParts(document.getElementById("address").innerText);
-        header.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, transitionDuration);
-    }
     header.classList.add("open");
     style.height = `${scrollHeight}px`;
     body.__timeout = setTimeout(
@@ -161,6 +155,13 @@ function toggleSection(ev) {
       transitionDuration + 20
     );
   }
+}
+
+function supportAuthorTest(ev) {
+  highlightStoryParts(document.getElementById("address").innerText);
+  document
+    .getElementById("support-section")
+    .scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 document
@@ -175,6 +176,10 @@ document
 document
   .getElementById("support-button")
   .addEventListener("click", supportStoryCoins);
+
+document
+  .getElementById("support-author-test")
+  .addEventListener("click", supportAuthorTest);
 
 document.getElementById("story").addEventListener("click", onStoryHighlight);
 window.addEventListener("click", onStoryHighlightEnd, true);
