@@ -20,7 +20,7 @@ async function getStoryNotes(params) {
       lastRefresh = Date.now();
     }
   } catch (err) {
-    console.error(err, err.stack);
+    console.error(err, err.response, err.stack);
   } finally {
     return cache;
   }

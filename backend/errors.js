@@ -1,5 +1,5 @@
 function handleError(err, req, res, next) {
-  console.error(err, err.stack);
+  console.error(err, err.response, err.stack);
 
   const status = err.status || 500;
   let body;
