@@ -52,6 +52,14 @@ async function fundStoryCoins({ recipient, self }) {
 }
 
 async function isStoryCoinBlocked({ recipient, self }) {
+  const lovedResponse = {
+    message:
+      "This author is already loved by the community. Support the underdogs too!",
+  };
+  if (recipient === treasury.addr) {
+    return lovedResponse;
+  }
+
   const { assets } = await client.accountInformation(recipient).do();
   const storyCoins = assets.find(
     (asset) => asset["asset-id"] === Number(process.env.STORY_COIN_ID)
@@ -76,10 +84,7 @@ async function isStoryCoinBlocked({ recipient, self }) {
     return { message: "You already have some Story coins. Spend them first!" };
   }
   if (99 <= storyCoins.amount) {
-    return {
-      message:
-        "This author is already loved by the community. Support the underdogs too!",
-    };
+    return lovedResponse;
   }
 }
 
