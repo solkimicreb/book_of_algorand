@@ -19,6 +19,8 @@ async function getStoryNotes(params) {
       cache = await _getStoryNotes(params);
       lastRefresh = Date.now();
     }
+  } catch (err) {
+    console.error(err, err.stack);
   } finally {
     return cache;
   }
