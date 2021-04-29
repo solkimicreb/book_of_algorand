@@ -29,7 +29,7 @@ function fetchResource(path = "", method, body) {
         });
       }
       if (isError) {
-        throw new Error("API Error");
+        throw body;
       }
       return body;
     });

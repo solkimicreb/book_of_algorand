@@ -42,9 +42,11 @@ async function fundStoryCoins({ recipient, self }) {
   const signedTxn = algosdk.signTransaction(txn, treasury.sk);
   await client.sendRawTransaction(signedTxn.blob).do();
 
-  return self
-    ? "You recieved some Story coins!"
-    : "We sent the author a Story coin on your behalf!";
+  return {
+    message: self
+      ? "You recieved some Story coins!"
+      : "We sent the author a Story coin on your behalf!",
+  };
 }
 
 async function isStoryCoinBlocked({ recipient, self }) {
@@ -55,19 +57,27 @@ async function isStoryCoinBlocked({ recipient, self }) {
 
   if (!storyCoins) {
     return self
-      ? `Please add the Story asset (id: ${process.env.STORY_COIN_ID}) to your wallet.`
-      : "This author opted out of Story coins.";
+      ? {
+          message: `Please add the Story asset (id: ${process.env.STORY_COIN_ID}) to your wallet.`,
+          addAsset: true,
+        }
+      : { message: "This author opted out of Story coins." };
   }
   if (storyCoins["is-frozen"]) {
-    return self
-      ? "Your Story coin account is frozen."
-      : "The author's Story coin account is frozen.";
+    return {
+      message: self
+        ? "Your Story coin account is frozen."
+        : "The author's Story coin account is frozen.",
+    };
   }
   if (self && 2 <= storyCoins.amount) {
-    return "You already have some Story coins. Spend them first!";
+    return { message: "You already have some Story coins. Spend them first!" };
   }
   if (99 <= storyCoins.amount) {
-    return "This author is already loved by the community. Support the underdogs too!";
+    return {
+      message:
+        "This author is already loved by the community. Support the underdogs too!",
+    };
   }
 }
 

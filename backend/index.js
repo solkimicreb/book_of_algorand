@@ -43,12 +43,11 @@ app.post(
     const { recipient, self } = req.body;
     const blockReason = await isStoryCoinBlocked({ recipient, self });
     if (blockReason) {
-      return res.status(400).send({ message: blockReason });
+      return res.status(400).send(blockReason);
     }
 
-    const message = await fundStoryCoins({ recipient, self });
-
-    res.send({ message });
+    const response = await fundStoryCoins({ recipient, self });
+    res.send(response);
   })
 );
 

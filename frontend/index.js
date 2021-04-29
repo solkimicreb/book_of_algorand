@@ -32,9 +32,17 @@ function copyStoryCoinId(ev) {
 function fundStoryCoins(ev) {
   const { value } = ev.target;
   if (value.length === 58) {
-    post("/fund", { recipient: value, self: true }).then(({ message }) =>
-      notify({ message, color: "success" })
-    );
+    const timeout = 4000;
+    post("/fund", { recipient: value, self: true })
+      .then(({ message }) => notify({ message, color: "success", timeout }))
+      .catch((err) => {
+        if (err.addAsset) {
+          const addAsset = document.getElementById("story-coin-id");
+          addAsset.classList.add("danger");
+          setTimeout(() => addAsset.classList.remove("danger"), timeout);
+        }
+        ev.target.value = "";
+      });
   }
 }
 
@@ -125,29 +133,7 @@ function onStoryHighlightEnd(ev) {
   }
 }
 
-const basics = document.getElementById("basics");
-
-function toggleBasics() {
-  basics.classList.toggle("open");
-}
-
-document
-  .getElementById("address")
-  .addEventListener("click", copyTreasuryAddress);
-document
-  .getElementById("story-coin-id")
-  .addEventListener("click", copyStoryCoinId);
-document
-  .getElementById("story-input")
-  .addEventListener("input", fundStoryCoins);
-document
-  .getElementById("support-button")
-  .addEventListener("click", supportStoryCoins);
-
-document.getElementById("story").addEventListener("click", onStoryHighlight);
-window.addEventListener("click", onStoryHighlightEnd, true);
-
-function onHeaderClick(ev) {
+function toggleSection(ev) {
   const { nextElementSibling: body } = ev.target;
   const { scrollHeight, style, __timeout } = body;
 
@@ -168,5 +154,21 @@ function onHeaderClick(ev) {
 }
 
 document
+  .getElementById("address")
+  .addEventListener("click", copyTreasuryAddress);
+document
+  .getElementById("story-coin-id")
+  .addEventListener("click", copyStoryCoinId);
+document
+  .getElementById("story-input")
+  .addEventListener("input", fundStoryCoins);
+document
+  .getElementById("support-button")
+  .addEventListener("click", supportStoryCoins);
+
+document.getElementById("story").addEventListener("click", onStoryHighlight);
+window.addEventListener("click", onStoryHighlightEnd, true);
+
+document
   .querySelectorAll(".section-header")
-  .forEach((header) => header.addEventListener("click", onHeaderClick));
+  .forEach((header) => header.addEventListener("click", toggleSection));

@@ -231,3 +231,7 @@ a {
 .section-body *:last-child {
   margin-bottom: 15px;
 }
+
+#story-coin-id {
+  transition: color 0.15s, background-color 0.15s;
+}
