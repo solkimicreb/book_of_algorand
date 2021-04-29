@@ -19,7 +19,8 @@ main {
 button,
 .button,
 a {
-  padding: 0;
+  padding: 0 2px;
+  border-radius: 2px;
   outline: none !important;
   border: none !important;
   font: inherit;
@@ -87,7 +88,7 @@ li {
   width: max-content;
   max-width: min(20cm, 90%);
   text-align: center;
-  padding: 15px 25px;
+  padding: 10px 20px;
   transition: transform 0.3s, top 0.3s;
   font-weight: bold;
   border-radius: 5px;
@@ -106,7 +107,7 @@ li {
   right: 0;
   transform: translate(0, 100%);
   text-align: center;
-  padding: 15px 25px;
+  padding: 10px 20px;
   transition: transform 0.2s;
   font-weight: bold;
 }

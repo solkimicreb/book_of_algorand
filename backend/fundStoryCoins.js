@@ -17,30 +17,32 @@ const getNote = (self) =>
   );
 
 async function fundStoryCoins({ recipient, self }) {
-  const params = await client.getTransactionParams().do();
-  params.flatFee = true;
-  params.fee = 1000;
+  if (recipient !== treasury.addr) {
+    const params = await client.getTransactionParams().do();
+    params.flatFee = true;
+    params.fee = 1000;
 
-  const sender = treasury.addr;
-  const closeRemainderTo = undefined;
-  const revocationTarget = undefined;
-  const amount = self ? 2 : 1;
-  const encodedNote = getNote();
-  const assetId = Number(process.env.STORY_COIN_ID);
+    const sender = treasury.addr;
+    const closeRemainderTo = undefined;
+    const revocationTarget = undefined;
+    const amount = self ? 2 : 1;
+    const encodedNote = getNote();
+    const assetId = Number(process.env.STORY_COIN_ID);
 
-  const txn = algosdk.makeAssetTransferTxnWithSuggestedParams(
-    sender,
-    recipient,
-    closeRemainderTo,
-    revocationTarget,
-    amount,
-    encodedNote,
-    assetId,
-    params
-  );
+    const txn = algosdk.makeAssetTransferTxnWithSuggestedParams(
+      sender,
+      recipient,
+      closeRemainderTo,
+      revocationTarget,
+      amount,
+      encodedNote,
+      assetId,
+      params
+    );
 
-  const signedTxn = algosdk.signTransaction(txn, treasury.sk);
-  await client.sendRawTransaction(signedTxn.blob).do();
+    const signedTxn = algosdk.signTransaction(txn, treasury.sk);
+    await client.sendRawTransaction(signedTxn.blob).do();
+  }
 
   return {
     message: self
