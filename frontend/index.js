@@ -134,13 +134,16 @@ function onStoryHighlightEnd(ev) {
 }
 
 function toggleSection(ev) {
-  const { nextElementSibling: body } = ev.target;
+  const header = ev.currentTarget;
+  const body = header.nextElementSibling;
+
+  header.classList.toggle("open");
+
   const { scrollHeight, style, __timeout } = body;
-
   clearTimeout(__timeout);
-
-  const transitionDuration = scrollHeight * 2;
+  const transitionDuration = Math.min(500, scrollHeight * 2);
   style.transitionDuration = `${transitionDuration}ms`;
+
   if (style.height) {
     style.height = `${scrollHeight}px`;
     body.__timeout = setTimeout(() => (style.height = null), 20);
@@ -148,7 +151,7 @@ function toggleSection(ev) {
     style.height = `${scrollHeight}px`;
     body.__timeout = setTimeout(
       () => (style.height = "auto"),
-      transitionDuration
+      transitionDuration + 20
     );
   }
 }

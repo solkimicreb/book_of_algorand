@@ -218,6 +218,20 @@ a {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   user-select: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-header svg {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s;
+}
+
+.section-header.open svg {
+  transform: rotate(-180deg);
 }
 
 .section-body {
