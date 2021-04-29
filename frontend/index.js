@@ -143,9 +143,30 @@ document
 document
   .getElementById("support-button")
   .addEventListener("click", supportStoryCoins);
-document
-  .getElementById("toggle-basics")
-  .addEventListener("click", toggleBasics);
 
 document.getElementById("story").addEventListener("click", onStoryHighlight);
 window.addEventListener("click", onStoryHighlightEnd, true);
+
+function onHeaderClick(ev) {
+  const { nextElementSibling: body } = ev.target;
+  const { scrollHeight, style, __timeout } = body;
+
+  clearTimeout(__timeout);
+
+  const transitionDuration = scrollHeight * 2;
+  style.transitionDuration = `${transitionDuration}ms`;
+  if (style.height) {
+    style.height = `${scrollHeight}px`;
+    body.__timeout = setTimeout(() => (style.height = null));
+  } else {
+    style.height = `${scrollHeight}px`;
+    body.__timeout = setTimeout(
+      () => (style.height = "auto"),
+      transitionDuration
+    );
+  }
+}
+
+document
+  .querySelectorAll(".section-header")
+  .forEach((header) => header.addEventListener("click", onHeaderClick));

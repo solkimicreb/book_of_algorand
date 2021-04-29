@@ -49,12 +49,8 @@ h2 {
   font-size: 22px;
 }
 
+ol,
 ul {
-  padding-inline-start: 10px;
-  margin: 0;
-}
-
-ol {
   padding-inline-start: 12px;
   margin: 0;
 }
@@ -123,12 +119,6 @@ li {
   transition: background-color 0.15s, color 0.15s;
 }
 
-#intro {
-  padding: 5px 20px;
-  border-radius: 8px;
-  margin: 20px 0;
-}
-
 .primary {
   background-color: white;
   color: #212121;
@@ -144,6 +134,10 @@ li {
 .danger {
   background-color: rgb(255, 218, 255);
   color: #111;
+}
+
+#story span {
+  cursor: pointer;
 }
 
 .selected,
@@ -181,16 +175,6 @@ a {
   }
 }
 
-#basics {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s;
-}
-
-#basics.open {
-  max-height: 160px;
-}
-
 #loader {
   position: fixed;
   top: 0;
@@ -218,4 +202,32 @@ a {
   100% {
     left: 100%;
   }
+}
+
+.section {
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.section-header {
+  display: block;
+  cursor: pointer;
+  padding: 15px 20px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.section-body {
+  height: 0;
+  transition-property: height;
+  overflow: hidden;
+  padding: 0 20px;
+  margin: 0;
+}
+
+.section-body *:first-child {
+  margin-top: 0;
+}
+.section-body *:last-child {
+  margin-bottom: 15px;
 }

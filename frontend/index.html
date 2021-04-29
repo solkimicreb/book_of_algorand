@@ -19,57 +19,69 @@
   </head>
   <body class="primary">
     <div id="loader"></div>
+    <div id="notification"></div>
     <main>
       <h1>The Book of Algorand</h1>
       <h2>A community-driven story on the Algorand blockchain</h2>
-      <div id="intro" class="secondary">
-        <p>Follow these steps to become an author:</p>
-        <ol>
-          <li>
-            <button id="toggle-basics">Click here</button> if you are new to
-            crypto or Algorand.
-            <ul id="basics">
-              <li>
-                Download the official
-                <a href="https://algorandwallet.com/" target="_blank"
-                  >Algorand wallet</a
-                >
-                and create an account.
-              </li>
-              <li>
-                Get a few Algos from your friends or the
-                <a href="https://www.algorandfaucet.com/" target="_blank"
-                  >faucet</a
-                >
-                to cover transaction costs.
-              </li>
-            </ul>
-          </li>
-          <li>
-            Add the Story coin asset (id
-            <span class="button" id="story-coin-id">{{ storyCoinId }}</span>) to
-            your wallet.
-          </li>
-          <li>
-            <input
-              id="story-input"
-              placeholder="Paste your address here..."
-              maxlength="58"
-            />
-            to get some free Story coins.
-          </li>
-          <li>
-            Send at least 1 Story coin or 1 Algo with a note to
-            <span class="button" id="address">{{ treasuryAddress }}</span>.
-          </li>
-          <li>Your note will be added to the end of the current chapter.</li>
-          <li>Click on a story part to reveal and support its author.</li>
-        </ol>
-        <p>
-          Algo donations are highlighted in
-          <span class="magenta">magenta</span>. They cover operational cost and
-          buy me coffee.
-        </p>
+      <div class="secondary section">
+        <div class="section-header">New to crypto or Algorand?</div>
+        <div class="section-body">
+          <ol>
+            <li>
+              Download the official
+              <a href="https://algorandwallet.com/" target="_blank"
+                >Algorand wallet</a
+              >
+              and create an account.
+            </li>
+            <li>
+              Get a few Algos from your friends or the
+              <a href="https://www.algorandfaucet.com/" target="_blank"
+                >faucet</a
+              >
+              to cover transaction costs.
+            </li>
+          </ol>
+        </div>
+      </div>
+      <div class="secondary section">
+        <div class="section-header">Become a crypto author</div>
+        <div class="section-body">
+          <ol>
+            <li>
+              Add the Story coin asset (id
+              <span class="button" id="story-coin-id">{{ storyCoinId }}</span>)
+              to your wallet.
+            </li>
+            <li>
+              <input
+                id="story-input"
+                placeholder="Paste your address here..."
+                maxlength="58"
+              />
+              to get some free Story coins.
+            </li>
+            <li>
+              Send at least 1 Story coin or 1 Algo with a note to
+              <span class="button" id="address">{{ treasuryAddress }}</span>.
+            </li>
+            <li>Your note will be added to the end of the current chapter.</li>
+          </ol>
+          <p>
+            Algo donations are highlighted in
+            <span class="magenta">magenta</span>. They cover operational cost
+            and buy me coffee.
+          </p>
+        </div>
+      </div>
+      <div class="secondary section">
+        <div class="section-header">Support other authors</div>
+        <div class="section-body">
+          <p>
+            You like a specific part of the story? Click on it to reveal its
+            author and support them with a few Story coins from the treasury.
+          </p>
+        </div>
       </div>
       <h2>Chapter 1</h2>
       <p id="story">
@@ -83,7 +95,6 @@
         {{/each}}
       </p>
     </main>
-    <div id="notification"></div>
     <div id="bottom-bar" class="secondary">
       <span></span>
       <button id="support-button">Support them!</button>
