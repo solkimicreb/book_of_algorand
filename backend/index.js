@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const { default: sslRedirect } = require("heroku-ssl-redirect");
 const { treasury } = require("./client");
 const { getStoryNotes } = require("./getStoryNotes");
 const { fundStoryCoins, isStoryCoinBlocked } = require("./fundStoryCoins");
@@ -9,6 +10,7 @@ const { frontendTemplate, frontendPath } = require("./template");
 const port = process.env.PORT;
 const app = express();
 
+app.use(sslRedirect());
 app.use(express.json());
 
 app.get(
