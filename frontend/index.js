@@ -80,7 +80,13 @@ function addNewStoryNotes() {
   });
 }
 
-setInterval(addNewStoryNotes, Number(process.env.POLL_INTERVAL) * 1000);
+function pollStoryNotes() {
+  if (!document.hidden) {
+    addNewStoryNotes();
+  }
+}
+
+setInterval(pollStoryNotes, Number(process.env.POLL_INTERVAL) * 1000);
 
 function highlightStoryParts(author) {
   senderNotes = [...story.querySelectorAll(`[data-sender=${author}]`)];
@@ -140,7 +146,7 @@ function toggleSection(ev) {
 
   const { scrollHeight, style, __timeout } = body;
   clearTimeout(__timeout);
-  const transitionDuration = Math.min(500, scrollHeight * 2);
+  const transitionDuration = Math.max(250, Math.min(500, scrollHeight * 2));
   style.transitionDuration = `${transitionDuration}ms`;
 
   if (style.height) {
