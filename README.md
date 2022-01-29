@@ -24,9 +24,9 @@ I wrote my first blockchain hobby project 9 months ago. The "Book of Algorand" i
 
 Feel free to [try the game](https://book-of-algorand.herokuapp.com/) before you continue.
 
-## Creating story coin
+## Creating the story coins
 
-My first step was creating story coin - the main currency of the game. Custom tokens are called Algorand Standard Assets - ASAs - in Algorand. They are primitive building blocks and require a simple http call to create instead of a smart contract.
+My first step was creating story coin - the main currency of the game. Custom tokens are called Algorand Standard Assets (ASAs) in Algorand. They are primitive building blocks and require a simple http call to create instead of a smart contract.
 
 ### Connecting to an Algorand node
 
@@ -47,14 +47,6 @@ const token = {
 
 const client = new algosdk.Algodv2(token, apiServer, apiPort);
 const indexer = new algosdk.Indexer(token, indexerServer, indexerPort);
-
-const treasury = algosdk.mnemonicToSecretKey(process.env.TREASURY_MNEMONIC);
-
-module.exports = {
-  client,
-  indexer,
-  treasury,
-};
 ```
 
 - The `client` connects to a participation node, which may add valid transactions to the blockchain. We will use this to add our ASA.
@@ -76,7 +68,22 @@ If you wish to learn more about Algorand account creation visit the [related doc
 
 ### Creating the story ASA
 
-Once
+> Custom currencies are called Algorand Standard Assets (ASAs) in Algorand.
+
+ASAs are created via special http requests with a few key parameters.
+
+- `totalIssuance`
+- `decimals`
+- `unitName`
+- `assetName`
+- `assetUrl`
+
+Changeable stuff, addresses
+
+- `reserve`
+- `freeze`
+- `clawback`
+- `manager`
 
 ```js
 const algosdk = require("algosdk");
@@ -139,64 +146,61 @@ The blockchain itself is not optimally searchable, it requires an indexer which 
 ```js
 const { indexer, treasury } = require("./client");
 
-async function getStoryNotes({ minRound } = {}) {
-  let lastRound;
-  let nextToken;
-  const transactions = [];
+async function getStoryNotes() {
+  const { transactions } = await indexer
+    .lookupAssetTransactions(process.env.STORY_COIN_ID)
+    .address(treasury.addr)
+    .addressRole("receiver")
+    .currencyGreaterThan(0)
+    .do();
 
-  while (true) {
-    const resp = await indexer
-      .searchForTransactions()
-      .address(treasury.addr)
-      .minRound(minRound)
-      .nextToken(nextToken)
-      .limit(100000)
-      .do();
-
-    nextToken = resp["next-token"];
-    lastRound = resp["current-round"];
-
-    const validTransactions = resp.transactions.filter((transaction) => {
-      const type = transaction["tx-type"];
-      if (type === "axfer") {
-        return (
-          transaction["asset-transfer-transaction"].receiver === treasury.addr
-        );
-      }
-      if (type === "pay") {
-        const { amount, receiver } = transaction["payment-transaction"];
-        return receiver === treasury.addr && 1000000 <= amount;
-      }
-      return false;
-    });
-
-    transactions.push(...validTransactions);
-
-    if (resp.transactions.length < transactionLimit) {
-      break;
-    }
-  }
-
-  const notes = transactions
+  return transactions
     .sort((t1, t2) => (t1["round-time"] < t2["round-time"] ? -1 : 1))
     .filter(({ note }) => note)
     .map((transaction) => ({
       note: Buffer.from(transaction.note, "base64").toString("utf-8").trim(),
       sender: transaction.sender,
       type: transaction["tx-type"],
-      amount:
-        transaction["tx-type"] === "axfer"
-          ? transaction["asset-transfer-transaction"].amount
-          : transaction["payment-transaction"].amount / 1000000,
+      amount: transaction["asset-transfer-transaction"].amount,
     }));
-
-  return { notes, lastRound };
 }
 ```
 
 ## Dispensing story coins
 
-add all methods
+People can get free story coins and award existing writers from the treasury. Both of these are done with a simple transaction request which sends a story coin from the treasury to the given address.
+
+```js
+const algosdk = require("algosdk");
+const { client, treasury } = require("./client");
+
+async function sendStoryCoins() {
+  const params = await client.getTransactionParams().do();
+  params.flatFee = true;
+  params.fee = 1000;
+
+  const sender = treasury.addr;
+  const closeRemainderTo = undefined;
+  const revocationTarget = undefined;
+  const amount = 1;
+  const encodedNote = getNote();
+  const assetId = Number(process.env.STORY_COIN_ID);
+
+  const txn = algosdk.makeAssetTransferTxnWithSuggestedParams(
+    sender,
+    recipient,
+    closeRemainderTo,
+    revocationTarget,
+    amount,
+    encodedNote,
+    assetId,
+    params
+  );
+
+  const signedTxn = algosdk.signTransaction(txn, treasury.sk);
+  await client.sendRawTransaction(signedTxn.blob).do();
+}
+```
 
 ## Issues
 
