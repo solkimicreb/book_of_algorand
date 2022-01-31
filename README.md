@@ -21,11 +21,11 @@ I wrote my first hobby blockchain project 9 months ago. The "Book of Algorand" i
 - Others can like your part of the story to send you a coin from the treasury.
 - People can freely exchange coins among themselves outside of the game. It is a crypto**currency** after all.
 
-// INSERT PICTURE ABOUT THE DISPENSER
+[Story coin dispenser](/images/dispensed.png)
 
 You can contribute to the story by sending at least 1 coin back to the treasury with a transaction note. These chronologically ordered transaction notes form the story.
 
-// INSERT PICTURES ABOUT SENDING A TRANSACTION WITH NOTE AND THE STORY SIDE-TO-SIDE
+[Story contribution](/images/send.jpg)
 
 Feel free to [try the game](https://book-of-algorand.herokuapp.com/) before you continue reading.
 
@@ -223,17 +223,16 @@ We could improve our UX by letting the users contribute to the story directly fr
 
 ### Incentives
 
-One of the most difficult challenge in cryptocurrency are incentives. It is impossible to predict how people will use something as generic as a blockchain, especially when it is fully public and open source.
+One of the most difficult challenge in cryptocurrency are incentives. It is impossible to predict how people will use something as generic as a blockchain, especially when it is fully public and open source. Any of the following scenarious could happen.
 
 - People purposefully ruin the story by writing inappropriate things.
-- People start to use story coin outside the app as a currency or store of value.
-- A single user becomes a fan an ruins the game for everyone by hoarding story coin and limiting the supply.
--
+- People start to use story coins as currency or store of value outside the app.
+- A single user becomes a fan an ruins the game for everyone by hoarding story coins and limiting the supply.
+- People figuring out a way to "farm" story coins with little effort which could ruin the game for others. Currently this is simply done by liking your own contributions a lot of times.
+- I am sure I did not list everything here. People can exploit a project in extremely creative ways when they are anonymous over the internet and they can gain from it.
 
-We need a well formed incentive system in advance!!, no centralized authority can mess with the game.
+These can all be avoided by forming a carefully thought-out incentive system in advance. This task is perhaps more difficult than the pogramming one but it requires a similar mindset. A good programmer thinks about and covers all edge cases, the same attitude is required here. Only you can not patch things up in another release.
 
-> Incentives are the hardest thing to do.
+## Thank you for the attention
 
-Silvio Micali, founder of Algorand
-
-I am a 100% percent sure that my hobby project won't fulfill it's vision and produce a coherent story yet.
+I am a 100% percent sure that my hobby project won't fulfill its vision and produce a coherent story yet but I had fun making it and I hope I peaked some soon-to-be-crypto-dev interest with it.
