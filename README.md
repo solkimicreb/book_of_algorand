@@ -21,11 +21,11 @@ I wrote my first hobby blockchain project 9 months ago. The "Book of Algorand" i
 - Others can like your part of the story to send you a coin from the treasury.
 - People can freely exchange coins among themselves outside of the game. It is a crypto**currency** after all.
 
-[Story coin dispenser](/images/dispensed.png)
+![Story coin dispenser](/images/dispensed.png)
 
 You can contribute to the story by sending at least 1 coin back to the treasury with a transaction note. These chronologically ordered transaction notes form the story.
 
-[Story contribution](/images/send.jpg)
+![Story contribution](/images/send.jpg)
 
 Feel free to [try the game](https://book-of-algorand.herokuapp.com/) before you continue reading.
 
