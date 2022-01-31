@@ -68,22 +68,22 @@ If you wish to learn more about Algorand account creation visit the [related doc
 
 ### Creating the story ASA
 
-> Custom currencies are called Algorand Standard Assets (ASAs) in Algorand.
+> Reminder: custom tokens are called Algorand Standard Assets (ASAs) in Algorand.
 
-ASAs are created via special http requests with a few key parameters.
+ASAs are created via an http requests with a few key parameters. The immutable parameters are:
 
-- `totalIssuance`
-- `decimals`
-- `unitName`
-- `assetName`
-- `assetUrl`
+- `totalIssuance`: the total number of mintable tokens, which is 1 for NFTs and a larger number for fungible tokens.
+- `decimals`: the decimal points for the token, which is 0 for NFTs.
+- `assetName`: The name of the token.
+- `unitName`: The name of a single unit of the token.
+- `assetUrl`: An url which points to the project's website.
 
-Changeable stuff, addresses
+Other important parameters can be changed after token creation.
 
-- `reserve`
-- `freeze`
-- `clawback`
-- `manager`
+- `reserve`: The Algorand address where the total supply of the ASA will be created. Tokens held by this address are regarded out of circulation.
+- `freeze`: The Algorand address which can freeze token holdings of other accounts by a freeze transaction. This feature can be disabled by setting it to null.
+- `clawback`: The Algorand address which can claw back holdings of other accounts by a clawback transaction. This feature can be disabled by setting it to null.
+- `manager`: The Algorand address which can change the above fields of the ASA.
 
 ```js
 const algosdk = require("algosdk");
@@ -132,15 +132,17 @@ async function createStoryCoin() {
 }
 ```
 
+You can learn more about Algorand Standard Asset creation from the [related docs page](https://developer.algorand.org/docs/get-details/asa/).
+
 ## Writing the story
 
 Users can contribute by sending a story coin transaction with a note back to the treasury. These transaction notes are retrieved and concatenated in a cronological order to form the current story.
 
 The blockchain itself is not optimally searchable, it requires an indexer which feeds each block in real-time into an indexed database. Algorand provides a basic indexer which is sufficient for our simple task. We have to query all transactions which:
 
-- sends funds to the treasury address.
 - sends coin ASAs.
-- sends at least on of the ASA.
+- sends funds to the treasury address.
+- sends at least one of the ASA.
 - has a note.
 
 ```js
@@ -203,6 +205,16 @@ async function sendStoryCoins() {
 ```
 
 ## Issues
+
+The app works as it is but it could use a lot of improvements regarding UX, rewards and incentivization.
+
+### WalletConnect
+
+WalletConnect is a widely used standard which creates a bridge between two online devices via a server. This bridge is then used to send unsigned transactions from one device to another which signs the transaction and send it back.
+
+In our case we could improve the UX by letting the users build the story right from the app and only using their wallet to sign the ready made transaction with the note already in it.
+
+### Incentives
 
 One of the most difficult challenge in cryptocurrency are incentives. It is impossible to predict how people will use something as generic as a blockchain, especially when it is fully public and open source.
 
