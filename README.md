@@ -34,7 +34,7 @@ My first step was creating story coin, the main currency of the game. Custom tok
 
 ### Connecting to an Algorand node
 
-Developers can interact with the blockchain via nodes, which broadcast requests to the decentralized network. Running a node simple but for hobby purposes using a free third party one is sufficient. I recommend the [PureStake API](https://www.purestake.com/technology/algorand-api/).
+Developers can interact with the blockchain via nodes, which broadcast requests to the decentralized network. Running a node is simple but for hobby purposes using a free third party one is sufficient. I recommend the [PureStake API](https://www.purestake.com/technology/algorand-api/).
 
 The [JavaScript algosdk](https://github.com/algorand/js-algorand-sdk) provides a light abstraction over a node's http interface and provides necessary cryptographic primitives to interact with the blockchain. The following code creates a connection to the Algorand node hosted by PureStake.
 
@@ -54,7 +54,7 @@ const indexer = new algosdk.Indexer(token, indexerServer, indexerPort);
 ```
 
 - The `client` connects to a participation node, which may add valid transactions to the blockchain. We will use it to create and send story coins.
-- The chain is the source of truth but it is hard to search. The `indexer` saves the blockchain into a searchable database which we can use to piece together the story.
+- The chain is the source of truth but it is hard to search. The `indexer` saves the blockchain into a searchable database which we can use to piece the story together.
 
 ### Creating the story treasury
 
@@ -66,7 +66,7 @@ const algosdk = require("algosdk");
 const treasury = algosdk.generateAccount();
 ```
 
-This should be used as a one-off script to discover and securely store a key pair for the story coin treasury. Although storing private keys is a sensitive topic, for the purpose of this hobby project I simply transformed it into a 25 word mnemonic and stored it as an environmental variable. The below snippet transforms between this mnemonic and a key pair for our application.
+This should be used as a one-off script to discover and securely store a key pair for the story coin treasury. Although storing private keys is a sensitive topic, for the purpose of this hobby project I simply transformed it into a 25 word mnemonic and stored it as an environmental variable. The below snippet transforms between a mnemonic and key pair form for our application.
 
 ```js
 const algosdk = require("algosdk");
@@ -99,25 +99,25 @@ async function fundStoryTreasury() {
 }
 ```
 
-This scripts creates and funds the treasury account by 0.3 algos to cover the cost of account creations and later transaction fees.
+This scripts creates and funds the treasury account by 0.3 algos to cover the cost of the account creation and later transaction fees.
 
-If you wish to learn more about Algorand account creation visit the [related documentation page](https://developer.algorand.org/docs/get-details/accounts/).
+If you wish to learn more about Algorand accounts visit the [related documentation page](https://developer.algorand.org/docs/get-details/accounts/).
 
 ### Creating the story ASA
 
 > Reminder: custom tokens are called Algorand Standard Assets (ASAs) in Algorand.
 
-ASAs are created via an http requests with a few key parameters. The immutable parameters are the following.
+ASAs are created via an http requests with a few immutable parameters.
 
-- `totalIssuance`: the total number of mintable tokens, which is 1 for NFTs and a larger number for fungible tokens.
-- `decimals`: the decimal points for the token, which is 0 for NFTs.
+- `totalIssuance`: the total number of mintable tokens which is 1 for NFTs and a larger number for fungible tokens.
+- `decimals`: the decimal points for the token which is 0 for NFTs.
 - `assetName`: The name of the token.
 - `unitName`: The name of a single unit of the token.
 - `assetUrl`: An url which points to the project's website.
 
 Other important parameters can be changed after token creation.
 
-- `reserve`: The Algorand address where the total supply of the ASA will be created. Tokens held by this address are regarded out of circulation.
+- `reserve`: The Algorand address where the total supply of the ASA will be created. Tokens held by this address are regarded as out of circulation.
 - `freeze`: The Algorand address which can freeze token holdings of other accounts by a freeze transaction. This feature can be disabled by setting it to null.
 - `clawback`: The Algorand address which can claw back holdings of other accounts by a clawback transaction. This feature can be disabled by setting it to null.
 - `manager`: The Algorand address which can change the above fields of the ASA.
@@ -173,7 +173,7 @@ You can learn more about Algorand Standard Asset creation from the [related docs
 
 ## Dispensing story coins
 
-People can get free story coins and award existing writers from the treasury. Both of these are done with a simple transaction request which sends a story coin from the treasury to the given address.
+People can get free story coins and award existing writers from the treasury. Both of these are done with a simple asset transfer transaction which sends a story coin from the treasury to the given address.
 
 ```js
 const algosdk = require("algosdk");
@@ -209,7 +209,7 @@ async function sendStoryCoins() {
 
 Users can contribute to the story by sending a story coin transaction with a note back to the treasury. These transaction notes are retrieved and concatenated in a cronological order to form the current story.
 
-The blockchain itself is not optimally searchable, it requires an indexer which feeds each block in real-time into a database. Algorand provides a basic indexer which is sufficient for our simple task. We have to query for transactions which:
+The blockchain itself is not optimally searchable, it requires an indexer which feeds each block into a database. Algorand provides a basic indexer which is sufficient for our simple task. We have to query for transactions which:
 
 - send coin ASAs.
 - send funds to the treasury address.
@@ -269,7 +269,7 @@ One of the most difficult challenge in cryptocurrency are incentives. It is impo
 
 These can all be avoided by forming a carefully thought-out incentive system in advance. This task is perhaps more difficult than the programming one but it requires a similar mindset. A good programmer thinks about and covers all edge cases.
 
-In this case hindsight and patches are a lot more difficult to do though. Updating a production dapp requires the approval and joint work of the userbase, which is a huge burden and a beautiful concept at once.
+In this case hindsight and patches are a lot more difficult to do though. Updating a production dapp requires the approval and joint work of the userbase which is a huge burden and a beautiful concept at once.
 
 ## Thank you for the attention
 
