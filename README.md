@@ -19,7 +19,7 @@ I wrote my first hobby blockchain project 9 months ago. The "Book of Algorand" i
 
 - You can get them directly from a dispenser.
 - Others can like your part of the story to send you a coin from the treasury.
-- People can freely exchange coins among themselves outside of the game. It is a crypto**currency** after all.
+- You can freely exchange coins with others outside of the game. It is a crypto**currency** after all.
 
 ![Story coin dispenser](/images/dispensed.png)
 
@@ -37,7 +37,7 @@ My first step was creating story coin, the main currency of the game. Custom tok
 
 Developers can interact with the blockchain via nodes, which broadcast requests to the decentralized network. Running a node simple but for hobby purposes using a free third party one is sufficient. I recommend the [PureStake API](https://www.purestake.com/technology/algorand-api/).
 
-The [JavaScript algosdk](https://github.com/algorand/js-algorand-sdk) provides a light abstraction over a node's http interface to simplify the transaction creation and sending process. The following code creates a connection to the Algorand node hosted by PureStake.
+The [JavaScript algosdk](https://github.com/algorand/js-algorand-sdk) provides a light abstraction over a node's http interface and provides necessary cryptographic primitives to interact with the blockchain. The following code creates a connection to the Algorand node hosted by PureStake.
 
 ```js
 const algosdk = require("algosdk");
@@ -55,11 +55,11 @@ const indexer = new algosdk.Indexer(token, indexerServer, indexerPort);
 ```
 
 - The `client` connects to a participation node, which may add valid transactions to the blockchain. We will use it to create and send story coins.
-- The chain is the source of truth but it is hard to search. The `indexer` saves the blockchain into a searchable database which we can use to query and piece together the story.
+- The chain is the source of truth but it is hard to search. The `indexer` saves the blockchain into a searchable database which we can use to piece together the story.
 
 ### Creating the story treasury
 
-Algorand produces keys with the Ed25519 elliptic-curve signature which takes a random value and outputs two 32-byte arrays, representing a public/private key pair. This key generation can be done completely offline and without the context of the blockchain. The public key becomes an account once it is added to the blockchain by funding it via a minimum of 0.1 Algo.
+Algorand produces keys with the Ed25519 elliptic-curve signature which takes a random value and outputs two 32-byte arrays, representing a public/private key pair. This key discovery can be done completely offline and without the context of the blockchain.
 
 ```js
 const algosdk = require("algosdk");
@@ -67,7 +67,40 @@ const algosdk = require("algosdk");
 const treasury = algosdk.generateAccount();
 ```
 
-This can be done via any of the Algorand wallets - like the [My Algo Wallet](https://wallet.myalgo.com) or the [Official Wallet](https://algorandwallet.com/).
+This should be used as a one-off script to discover and securely store a key pair for the story coin treasury. Although storing private keys is a sensitive topic, for the purpose of this hobby project I simply transformed it into a 25 word mnemonic and stored it as an environmental variable. The below snippet transforms between this mnemonic and a key pair for our application.
+
+```js
+const algosdk = require("algosdk");
+
+const secretKey = algosdk.mnemonicToSecretKey(process.env.TREASURY_MNEMONIC);
+const mnemonic = algosdk.secretKeyToMnemonic(treasury.sk);
+```
+
+A public key represents an Algorand account once it is added to the blockchain via a minimum 0.1 algo funding transaction. Algo - the base currency of Algorand blockchain - secures the network against DOS and spam attacks. The 0.1 algo minimum balance is required to prevent account creation spams.
+
+```js
+const algosdk = require("algosdk");
+const { client } = require("./client");
+const treasury = require("./treasury");
+
+async function fundStoryTreasury() {
+  const params = await client.getTransactionParams().do();
+
+  const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+    from: "another account address with spare algos",
+    to: treasury.addr,
+    // 300000 microalgos === 0.3 algos
+    amount: 300000,
+    note: null,
+    suggestedParams: params,
+  });
+
+  const signedTxn = txn.signTxn("secret key of sender address");
+  await client.sendRawTransaction(signedTxn).do();
+}
+```
+
+This scripts creates and funds the treasury account by 0.3 algos to cover the cost of account creations and later transaction fees.
 
 If you wish to learn more about Algorand account creation visit the [related documentation page](https://developer.algorand.org/docs/get-details/accounts/).
 
@@ -75,7 +108,7 @@ If you wish to learn more about Algorand account creation visit the [related doc
 
 > Reminder: custom tokens are called Algorand Standard Assets (ASAs) in Algorand.
 
-ASAs are created via an http requests with a few key parameters. The immutable parameters are:
+ASAs are created via an http requests with a few key parameters. The immutable parameters are the following.
 
 - `totalIssuance`: the total number of mintable tokens, which is 1 for NFTs and a larger number for fungible tokens.
 - `decimals`: the decimal points for the token, which is 0 for NFTs.
@@ -97,8 +130,6 @@ const treasury = require("./treasury");
 
 async function createStoryCoin() {
   const params = await client.getTransactionParams().do();
-  params.flatFee = true;
-  params.fee = 1000;
 
   const addr = treasury.addr;
   const note = undefined;
@@ -137,41 +168,9 @@ async function createStoryCoin() {
 }
 ```
 
+This script creates a million story coins into the treasury account. These coins are considered out of circulation until they leave the treasury address via a transaction.
+
 You can learn more about Algorand Standard Asset creation from the [related docs page](https://developer.algorand.org/docs/get-details/asa/).
-
-## Writing the story
-
-Users can contribute by sending a story coin transaction with a note back to the treasury. These transaction notes are retrieved and concatenated in a cronological order to form the current story.
-
-The blockchain itself is not optimally searchable, it requires an indexer which feeds each block in real-time into an indexed database. Algorand provides a basic indexer which is sufficient for our simple task. We have to query all transactions which:
-
-- sends coin ASAs.
-- sends funds to the treasury address.
-- sends at least one of the ASA.
-- has a note.
-
-```js
-const { indexer, treasury } = require("./client");
-
-async function getStoryNotes() {
-  const { transactions } = await indexer
-    .lookupAssetTransactions(process.env.STORY_COIN_ID)
-    .address(treasury.addr)
-    .addressRole("receiver")
-    .currencyGreaterThan(0)
-    .do();
-
-  return transactions
-    .sort((t1, t2) => (t1["round-time"] < t2["round-time"] ? -1 : 1))
-    .filter(({ note }) => note)
-    .map((transaction) => ({
-      note: Buffer.from(transaction.note, "base64").toString("utf-8").trim(),
-      sender: transaction.sender,
-      type: transaction["tx-type"],
-      amount: transaction["asset-transfer-transaction"].amount,
-    }));
-}
-```
 
 ## Dispensing story coins
 
@@ -183,8 +182,6 @@ const { client, treasury } = require("./client");
 
 async function sendStoryCoins() {
   const params = await client.getTransactionParams().do();
-  params.flatFee = true;
-  params.fee = 1000;
 
   const sender = treasury.addr;
   const closeRemainderTo = undefined;
@@ -209,9 +206,45 @@ async function sendStoryCoins() {
 }
 ```
 
+## Writing the story
+
+Users can contribute to the story by sending a story coin transaction with a note back to the treasury. These transaction notes are retrieved and concatenated in a cronological order to form the current story.
+
+The blockchain itself is not optimally searchable, it requires an indexer which feeds each block in real-time into a database. Algorand provides a basic indexer which is sufficient for our simple task. We have to query for transactions which:
+
+- send coin ASAs.
+- send funds to the treasury address.
+- send at least one of the ASA.
+- have a note.
+
+```js
+const { indexer, treasury } = require("./client");
+
+async function getStoryNotes() {
+  const { transactions } = await indexer
+    .lookupAssetTransactions(process.env.STORY_COIN_ID)
+    .address(treasury.addr)
+    .addressRole("receiver")
+    .currencyGreaterThan(0)
+    .do();
+
+  return transactions
+    .sort((t1, t2) => (t1["round-time"] < t2["round-time"] ? -1 : 1))
+    .filter(({ note }) => note)
+    .map((transaction) => ({
+      note: Buffer.from(transaction.note, "base64").toString("utf-8").trim(),
+      sender: transaction.sender,
+      type: transaction["tx-type"],
+      amount: transaction["asset-transfer-transaction"].amount,
+    }));
+}
+```
+
+The chronologically ordered notes of these transactions form our story.
+
 ## Future plans
 
-The current app works but it could use a lot of UX, rewards and incentivization improvements. The final goal is to bring the community together with the correct incentives through a cool UI and a seamless flow.
+The app works but it could use a lot of UX, rewards and incentivization improvements. The final goal is to bring the community together with the correct incentives through a cool UI and a seamless flow.
 
 ### WalletConnect
 
@@ -220,8 +253,10 @@ WalletConnect is a widely used standard which creates a bridge between a dapp an
 We could improve our UX by letting the users contribute to the story directly from the app. Users could write their contribution inside an input and sign and send it with a single click inside their mobile wallet.
 
 ![WalletConnect QR code](/images/qr.png)
+Dapp - wallet sessions can be created via QR codes.
 
 ![Transaction sign](/images/transaction.jpg)
+Wallet devices can sign transactions from other bridged devices via a simple click while the session is alive.
 
 ### Incentives
 
@@ -231,10 +266,12 @@ One of the most difficult challenge in cryptocurrency are incentives. It is impo
 - People start to use story coins as currency or store of value outside the app.
 - A single user becomes a fan an ruins the game for everyone by hoarding story coins and limiting the supply.
 - People figuring out a way to "farm" story coins with little effort which could ruin the game for others. Currently this is simply done by liking your own contributions a lot of times.
-- I am sure I did not list everything here. People can exploit a project in extremely creative ways when they are anonymous over the internet and they can gain from it.
+- I am sure I did not list everything here. People can exploit a project in extremely creative ways under the safety of anonymity.
 
-These can all be avoided by forming a carefully thought-out incentive system in advance. This task is perhaps more difficult than the pogramming one but it requires a similar mindset. A good programmer thinks about and covers all edge cases, the same attitude is required here. Only you can not patch things up in another release.
+These can all be avoided by forming a carefully thought-out incentive system in advance. This task is perhaps more difficult than the programming one but it requires a similar mindset. A good programmer thinks about and covers all edge cases.
+
+In this case hindsight and patches are a lot more difficult to do though. Updating a production dapp requires the approval and joint work of the userbase, which is a huge burden and a beautiful concept at once.
 
 ## Thank you for the attention
 
-I am a 100% percent sure that my hobby project won't fulfill its vision and produce a coherent story yet but I had fun making it and I hope I peaked some soon-to-be-crypto-dev interest with it.
+I am a 100% percent sure that my hobby project won't fulfill its vision and produce a coherent story yet but I had fun making it and I hope I peaked some interest with it.
