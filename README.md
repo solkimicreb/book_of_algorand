@@ -4,14 +4,13 @@ Cryptocurrencies provide an exciting new tool for us web developers which we sho
 
 Algorand was my entry to this world and it is still my favorite blockchain from a hobbyist and technological perspective. Being late to the party it has a lot less developed ecosystem but better foundation than Ethereum. It gives a chance to build things from the ground up and be recognized by a small community instead of copying and struggling in an ocean of other projects.
 
-These are my favorite things about building with Algorand.
+My favorite things about building with Algorand are:
 
-- It has an awesome [developer portal](https://developer.algorand.org/).
-- It has simple primitives and guarantees which eases you into the learning slope.
-- It has all the things you would expect from a modern chain - like NFTs, smart contracts and custom tokens.
-- It has around 0.1 cent fees and 4.5 second block time. You can really go crazy with your ideas.
-- Nodes can run on a Raspberry PI, you can easily set up your developer entry into the chain.
-- It has a small ecosystem and community where you can engage and be recognized.
+- the awesome [developer portal](https://developer.algorand.org/).
+- the simple primitives and guarantees which eases you into the learning slope.
+- all the things you would expect from a modern chain - like NFTs, smart contracts and custom tokens.
+- the 0.1 cent fees and 4.5 second block time. You can really go crazy with your ideas.
+- the small ecosystem and community where you can engage and be recognized.
 
 ## A community-driven story on the Algorand blockchain
 
