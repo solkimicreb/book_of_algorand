@@ -219,7 +219,9 @@ WalletConnect is a widely used standard which creates a bridge between a dapp an
 
 We could improve our UX by letting the users contribute to the story directly from the app. Users could write their contribution inside an input and sign and send it with a single click inside their mobile wallet.
 
-[WalletConnect QR code](/images/qr.jpg)
+![WalletConnect QR code](/images/qr.jpg)
+
+![Transaction sign](/images/transaction.jpg)
 
 ### Incentives
 
