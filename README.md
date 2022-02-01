@@ -67,7 +67,7 @@ const algosdk = require("algosdk");
 const treasury = algosdk.generateAccount();
 ```
 
-This can be done via any of the Algorand wallets - like the [My Algo Wallet]() or the [Official Wallet]().
+This can be done via any of the Algorand wallets - like the [My Algo Wallet](https://wallet.myalgo.com) or the [Official Wallet](https://algorandwallet.com/).
 
 If you wish to learn more about Algorand account creation visit the [related documentation page](https://developer.algorand.org/docs/get-details/accounts/).
 
@@ -219,7 +219,7 @@ WalletConnect is a widely used standard which creates a bridge between a dapp an
 
 We could improve our UX by letting the users contribute to the story directly from the app. Users could write their contribution inside an input and sign and send it with a single click inside their mobile wallet.
 
-// story -> qr code -> mobile sign flow
+[WalletConnect QR code](/images/qr.jpg)
 
 ### Incentives
 
