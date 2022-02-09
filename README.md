@@ -1,15 +1,32 @@
-# The Book of Algorand
+## Keywords (TODO: delete this section)
+
+Igyekeztem oket a cikk elejen belevenni. Nem tudom szamit-e.
+
+algo news (1x-szer benne)
+algo wallet (2x-szer benne)
+how to mine algorand (nincs ertelme sajna)
+algo token (az algo coin, nem token; algo coin 2x-szer benne van)
+algorand token (algo coinkent 2x-szer benne, lasd feljebb)
+algorand cryptocurrency (1x-szer benne)
+what is algorand
+auto lenders go (ez nem tudom mi sajna)
+algorand proof of stake (Pure Proof of Stake-kent 1x-szer benne)
+how many algorand coins are there (ezt nem tudom belerakni)
+algorand network (1x-szer benne)
+algorand explained
+
+# How does Algorand work? Creating the Book of Algorand.
 
 Cryptocurrencies provide an exciting new tool for us web developers which we should not ignore. Hidden behind the noise of mainstream media there is a world of constant innovation and constructive building.
 
-Algorand was my entry to this world and it is still my favorite blockchain from a hobbyist and technological perspective. Being late to the party it has a lot less developed ecosystem but better foundation than Ethereum. It gives a chance to build things from the ground up and be recognized by a small community instead of copying and struggling in an ocean of other projects.
+The Algorand cryptocurrency was my entry to this world and it is still my favorite blockchain from a hobbyist and technological perspective. Being late to the party it has a lot less developed ecosystem but better foundation than Ethereum. It gives a chance to build things from the ground up and be recognized by a small community instead of copying and struggling in an ocean of other projects.
 
-My favorite things about building with Algorand are:
+My favorite things about building with Algorand network are:
 
 - the awesome [developer portal](https://developer.algorand.org/).
 - the simple primitives and guarantees which eases you into the learning slope.
 - all the things you would expect from a modern chain - like NFTs, smart contracts and custom tokens.
-- the 0.1 cent fees and 4.5 second block time. You can really go crazy with your ideas.
+- the 0.1 cent fees and 4.5 second block time. You can really go crazy with your ideas thank to the Pure Proof of Stake model.
 - the small ecosystem and community where you can engage and be recognized.
 
 ## A community-driven story on the Algorand blockchain
@@ -75,7 +92,7 @@ const secretKey = algosdk.mnemonicToSecretKey(process.env.TREASURY_MNEMONIC);
 const mnemonic = algosdk.secretKeyToMnemonic(treasury.sk);
 ```
 
-A public key represents an Algorand account once it is added to the blockchain via a minimum 0.1 algo funding transaction. Algo - the base currency of Algorand blockchain - secures the network against DOS and spam attacks. The 0.1 algo minimum balance is required to prevent account creation spams.
+A public key represents an Algorand account once it is added to the blockchain via a minimum 0.1 algo coin funding transaction. Algo - the base currency of Algorand blockchain - secures the network against DOS and spam attacks. The 0.1 algo coin minimum balance is required to prevent account creation spams.
 
 ```js
 const algosdk = require("algosdk");
@@ -105,7 +122,7 @@ If you wish to learn more about Algorand accounts visit the [related documentati
 
 ### Creating the story ASA
 
-> Reminder: custom tokens are called Algorand Standard Assets (ASAs) in Algorand.
+> Reminder: custom tokens are called Algorand Standard Assets (ASAs).
 
 ASAs are created via an http requests with a few immutable parameters.
 
@@ -249,10 +266,10 @@ The app works but it could use a lot of UX, rewards and incentivization improvem
 
 WalletConnect is a widely used standard which creates a bridge between a dapp and a wallet - potentially on another device. This bridge is then used to send unsigned transactions from the app to the wallet which signs the transaction and sends it back.
 
-We could improve our UX by letting the users contribute to the story directly from the app. Users could write their contribution inside an input and sign and send it with a single click inside their mobile wallet.
+We could improve our UX by letting the users contribute to the story directly from the app. Users could write their contribution inside an input and sign and send it with a single click inside their mobile algo wallet.
 
 ![WalletConnect QR code](/images/qr.png)
-Dapp - wallet sessions can be created via QR codes.
+Dapp - algo wallet sessions can be created via QR codes.
 
 ![Transaction sign](/images/transaction.jpg)
 Wallet devices can sign transactions from other bridged devices via a simple click while the session is alive.
@@ -273,4 +290,4 @@ In this case hindsight and patches are a lot more difficult to do though. Updati
 
 ## Thank you for the attention
 
-I am a 100% percent sure that my hobby project won't fulfill its vision and produce a coherent story yet but I had fun making it and I hope I peaked some interest with it.
+I am a 100% percent sure that my hobby project won't fulfill its vision and produce a coherent story yet but I had fun making it and I hope I peaked some interest with it. You can follow the latest algo news and development updates on [their site](https://developer.algorand.org/).
