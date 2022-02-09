@@ -2,18 +2,18 @@
 
 Igyekeztem oket a cikk elejen belevenni. Nem tudom szamit-e.
 
-algo news (1x-szer benne)
-algo wallet (2x-szer benne)
-how to mine algorand (nincs ertelme sajna)
-algo token (az algo coin, nem token; algo coin 2x-szer benne van)
-algorand token (algo coinkent 2x-szer benne, lasd feljebb)
-algorand cryptocurrency (1x-szer benne)
-what is algorand
-auto lenders go (ez nem tudom mi sajna)
-algorand proof of stake (Pure Proof of Stake-kent 1x-szer benne)
-how many algorand coins are there (ezt nem tudom belerakni)
-algorand network (1x-szer benne)
-algorand explained
+- algo news (1x-szer benne)
+- algo wallet (2x-szer benne)
+- how to mine algorand (nincs ertelme sajna)
+- algo token (az algo coin, nem token; algo coin 2x-szer benne van)
+- algorand token (algo coinkent 2x-szer benne, lasd feljebb)
+- algorand cryptocurrency (1x-szer benne)
+- what is algorand
+- auto lenders go (ez nem tudom mi sajna)
+- algorand proof of stake (Pure Proof of Stake-kent 1x-szer benne)
+- how many algorand coins are there (ezt nem tudom belerakni)
+- algorand network (1x-szer benne)
+- algorand explained
 
 # How does Algorand work? Creating the Book of Algorand.
 
