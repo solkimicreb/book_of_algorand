@@ -8,20 +8,22 @@ Igyekeztem oket a cikk elejen belevenni. Nem tudom szamit-e.
 - algo token (az algo coin, nem token; algo coin 2x-szer benne van)
 - algorand token (algo coinkent 2x-szer benne, lasd feljebb)
 - algorand cryptocurrency (1x-szer benne)
-- what is algorand
+- what is algorand (1x-szer benne)
 - auto lenders go (ez nem tudom mi sajna)
 - algorand proof of stake (Pure Proof of Stake-kent 1x-szer benne)
 - how many algorand coins are there (ezt nem tudom belerakni)
 - algorand network (1x-szer benne)
-- algorand explained
+- algorand explained (nem igazan tudom belerakni)
+
+Summary: how to mine algorand, auto lenders go, how many algorand coins are there, algorand explained nincs benne, tobbi igen
 
 # How does Algorand work? Creating the Book of Algorand.
 
 Cryptocurrencies provide an exciting new tool for us web developers which we should not ignore. Hidden behind the noise of mainstream media there is a world of constant innovation and constructive building.
 
-The Algorand cryptocurrency was my entry to this world and it is still my favorite blockchain from a hobbyist and technological perspective. Being late to the party it has a lot less developed ecosystem but better foundation than Ethereum. It gives a chance to build things from the ground up and be recognized by a small community instead of copying and struggling in an ocean of other projects.
+The Algorand network was my entry to this world and it is still my favorite blockchain from a hobbyist and technological perspective. Being late to the party it has a lot less developed ecosystem but better foundation than Ethereum. It gives a chance to build things from the ground up and be recognized by a small community instead of copying and struggling in an ocean of other projects.
 
-My favorite things about building with Algorand network are:
+So what is Algorand? It's a pure proof of stake unforkable blockchain with a strong focus on consistency and a base algorand cryptocurrency. My favorite things about building with it are:
 
 - the awesome [developer portal](https://developer.algorand.org/).
 - the simple primitives and guarantees which eases you into the learning slope.
